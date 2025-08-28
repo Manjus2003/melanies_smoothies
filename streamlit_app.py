@@ -30,17 +30,17 @@ ingredients_list = st.multiselect(
     max_selections=5
 )
 
-if ingredients_list and name_on_order:
-    # Create ingredient string
-    ingredients_string = " ".join(ingredients_list)
+if ingredients_list:
+    ingredients_string = ''
+    for fruit_chosen in ingredients_list:
+        ingredients_string += fruit_chosen + ' '
 
-    # Correct insert with both columns
-    my_insert_stmt = f"""
-        INSERT INTO smoothies.public.orders(ingredients, name_on_order)
-        VALUES ('{ingredients_string}', '{name_on_order}')
-    """
+    st.write(ingredients_string)
 
-    st.write(my_insert_stmt)  # For debugging
+    my_insert_stmt = """ insert into smoothies.public.orders(ingredients)
+    values ('""" + ingredients_string + """','""" + name_on_order + """')"""
+
+    st.write(my_insert_stmt)
 
     # Button to submit order
     if st.button("Submit Order"):
